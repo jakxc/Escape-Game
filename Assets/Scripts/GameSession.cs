@@ -6,20 +6,18 @@ using TMPro;
 
 public class GameSession : MonoBehaviour
 {
-    [SerializeField] float restartDelay = 2;
-    
-    [Header ("Player")]
-    [SerializeField] int playerLives = 3;
-    [SerializeField] int playerScore = 0;
-   
-    [Header ("UI")]
-    [SerializeField] TextMeshProUGUI livesText;
-    [SerializeField] TextMeshProUGUI scoresText;
+    [SerializeField] float restartDelay = 2f;
+    [SerializeField] Health playerHealth;
+    ScoreKeeper scoreKeeper;
+    public bool hasCompleted;
 
-    private void Awake() {
+    string END_GAME = "EndGame";
+
+    void Awake() 
+    {
         // Singleton pattern
         int numberOfGameSessions = FindObjectsOfType<GameSession>().Length;
-
+        
         if(numberOfGameSessions > 1)
         {
             Destroy(gameObject);
@@ -28,49 +26,41 @@ public class GameSession : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
+
+        scoreKeeper = FindObjectOfType<ScoreKeeper>();
     }
 
-    void Start()
+    public void ProcessPlayerDeath() 
     {
-        livesText.text = "Lives left: " + playerLives.ToString();
-        scoresText.text = "Score: " + playerScore.ToString();
-    }
-
-   public void ProcessPlayerDeath() 
-   {
-        if(playerLives > 1) 
-        {   
+        if(playerHealth.GetHealth() > 1) 
+        {      
             StartCoroutine(RestartCurrentLevel());
+            Debug.Log("Player health =" + playerHealth.GetHealth());
         }
         else 
         {
-            StartCoroutine(ResetGameSession());
+            LoadEndGame();
+            Debug.Log("Player died =" + playerHealth.GetHealth());
         }
-   }
+    }
 
-   public void IncrementScore(int value)
-   {
-        playerScore += value;
-        scoresText.text = "Score: " + playerScore.ToString();
-   }
+    void LoadEndGame()
+    {
+        SceneManager.LoadScene(END_GAME);
+    }
 
-    IEnumerator RestartCurrentLevel() 
+     IEnumerator RestartCurrentLevel() 
     {   
         yield return new WaitForSecondsRealtime(restartDelay);
 
-        playerLives--; 
-        livesText.text = "Lives left: " + playerLives.ToString();
-        
-        var currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
     }
 
-    IEnumerator ResetGameSession()
+    public void ResetGameSession()
     {   
-        yield return new WaitForSecondsRealtime(restartDelay);
-
         FindObjectOfType<ScenePersist>().ResetScenePersist();
-        SceneManager.LoadScene(0);
+        FindObjectOfType<ScoreKeeper>().ResetScore();
         Destroy(gameObject);
-    }   
+    } 
 }

@@ -11,15 +11,17 @@ public class PlayerMovement : MonoBehaviour
     Animator playerAnim;
     CapsuleCollider2D playerCollider;
     BoxCollider2D feetCollider;
+
+    Health playerHealth;
+    bool enableInput;
     float initialGravityScale;
-    bool isAlive = true;
 
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] float jumpSpeed = 10f;
     [SerializeField] float climbSpeed = 5f;
-    [SerializeField] float maxHoldBreathTime = 5f;
     [SerializeField] GameObject projectile;
     [SerializeField] Transform weapon;
+    [SerializeField] AudioClip projectileSFX;
 
     float holdBreathTime;
 
@@ -30,27 +32,28 @@ public class PlayerMovement : MonoBehaviour
         playerSprite = GetComponent<SpriteRenderer>();
         playerAnim = GetComponent<Animator>();
         playerCollider = GetComponent<CapsuleCollider2D>();
+        playerHealth = GetComponent<Health>();
         feetCollider = GetComponent<BoxCollider2D>();
         initialGravityScale = playerBody.gravityScale;
-        holdBreathTime = maxHoldBreathTime;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isAlive) {
+        enableInput = playerHealth.isAlive;
+
+        if (!enableInput) {
             return;
-        } 
+        }
 
         Run();
         FlipSprite();
         Climb();
-        ToggleAlive();
     }
 
     void OnMove(InputValue value) 
     {   
-        if (!isAlive) {
+        if (!enableInput) {
             return;
         } 
 
@@ -59,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnJump(InputValue value) 
     {   
-         if (!isAlive) {
+         if (!enableInput) {
             return;
         }
 
@@ -76,10 +79,11 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void OnFire() {
-        if (!isAlive) {
+        if (!enableInput) {
             return;
         }
 
+        AudioSource.PlayClipAtPoint(projectileSFX, Camera.main.transform.position);
         Instantiate(projectile, weapon.position, transform.rotation);
     }
 
@@ -99,14 +103,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (isMoving) 
         {
-            if (playerBody.velocity.x > 0) 
-            {
-                playerSprite.flipX = false;
-            } 
-            else
-            {
-                playerSprite.flipX = true;
-            }        
+            playerSprite.flipX = !(playerBody.velocity.x > 0);    
         }
     }
 
@@ -125,36 +122,5 @@ public class PlayerMovement : MonoBehaviour
         
         bool hasVerticalSpeed = Mathf.Abs(playerBody.velocity.y) > Mathf.Epsilon;
         playerAnim.SetBool("isClimbing", hasVerticalSpeed);
-    }
-
-    void ToggleAlive() {
-        // If player touches enemy or hazards, player is not alive
-        if (playerCollider.IsTouchingLayers(LayerMask.GetMask("Enemies", "Hazards"))) 
-        {
-            isAlive = false;
-            playerAnim.SetTrigger("isDead");
-
-            FindObjectOfType<GameSession>().ProcessPlayerDeath();
-        }
-
-        if (playerCollider.IsTouchingLayers(LayerMask.GetMask("Water")))
-        {
-            Debug.Log("Player is touching water");
-            holdBreathTime -= Time.deltaTime;
-
-            if (holdBreathTime <= 0) {
-                isAlive = false;
-
-                playerAnim.SetTrigger("isDead");
-                FindObjectOfType<GameSession>().ProcessPlayerDeath();
-            }
-        }
-        else 
-        {   
-            if (holdBreathTime < maxHoldBreathTime) 
-            {
-                holdBreathTime += Time.deltaTime;
-            }
-        }
     }
 }

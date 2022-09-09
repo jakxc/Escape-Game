@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8542119245876814937}
   - component: {fileID: 3465180361506929069}
   - component: {fileID: 3465180361506929070}
+  - component: {fileID: 5332561769503257306}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -98,7 +99,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 775402581
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: -1691648431, guid: 79616f686426cef41b6ba6cc7222ee2f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -221,6 +222,23 @@ MonoBehaviour:
   climbSpeed: 5
   projectile: {fileID: 6654677854493341307, guid: d9a33084ed255a846be56c416c4a980c, type: 3}
   weapon: {fileID: 6243390261473848723}
+  projectileSFX: {fileID: 8300000, guid: 0d59e3a9b9985834ca0ca18917ce93ce, type: 3}
+--- !u!114 &5332561769503257306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3465180360137439941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ba0322276823d64f9318aa09f86011b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAlive: 1
+  health: 3
+  holdBreathTime: 0
+  maxHoldBreathTime: 5
 --- !u!1 &8154564745915654668
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,7 +263,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8154564745915654668}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.25, y: -0.184, z: 0}
+  m_LocalPosition: {x: 0.297, y: -0.184, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

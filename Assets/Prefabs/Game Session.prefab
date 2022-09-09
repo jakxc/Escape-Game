@@ -68,8 +68,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 99
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f907b8f498f423d489288c38d09c1d0d, type: 2}
+  m_sharedMaterial: {fileID: -3822998396990592757, guid: f907b8f498f423d489288c38d09c1d0d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -93,8 +93,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 75
-  m_fontSizeBase: 75
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 1647629676}
   - component: {fileID: 1647629675}
   - component: {fileID: 1647629674}
+  - component: {fileID: 1086697515613444204}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -237,6 +238,21 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1086697515613444204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647629673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 483ac3ede473826408f7c64e380e124f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthText: {fileID: 41726888}
+  playerHealth: {fileID: 5332561769503257306, guid: 08bb17ac783f8094b82f09015fbf2992, type: 3}
+  scoreText: {fileID: 1806082791}
 --- !u!1 &1806082789
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,8 +321,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 99
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f907b8f498f423d489288c38d09c1d0d, type: 2}
+  m_sharedMaterial: {fileID: -3822998396990592757, guid: f907b8f498f423d489288c38d09c1d0d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -330,8 +346,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 75
-  m_fontSizeBase: 75
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -418,6 +434,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   restartDelay: 2
-  playerLives: 3
-  livesText: {fileID: 41726888}
-  scoresText: {fileID: 1806082791}
+  playerHealth: {fileID: 5332561769503257306, guid: 08bb17ac783f8094b82f09015fbf2992, type: 3}
+  scoreKeeper: {fileID: 2268514319643375636, guid: f4f10d333c16adf418697c2934f13437, type: 3}
+  hasCompleted: 0

@@ -15,7 +15,7 @@ public class PickUp : MonoBehaviour
         {
             // Update player score with pick up value
             hasCollected = true;
-            FindObjectOfType<GameSession>().IncrementScore(pickUpValue);
+            FindObjectOfType<ScoreKeeper>().ModifyScore(pickUpValue);
             AudioSource.PlayClipAtPoint(pickUpSFX, Camera.main.transform.position);
             
             Destroy(gameObject);

@@ -7,6 +7,12 @@ public class LevelExit : MonoBehaviour
 {   
     [SerializeField] float loadDelay = 2f;
     
+    GameSession gameSession;
+
+    void Awake() {
+        gameSession = FindObjectOfType<GameSession>();    
+    }
+    
     void OnTriggerEnter2D(Collider2D other) 
     {   
         if (other.tag == "Player") 
@@ -19,16 +25,18 @@ public class LevelExit : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(loadDelay);
         
-        var currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        var nextSceneIndex = currentSceneIndex + 1;
-
-        if (nextSceneIndex == SceneManager.sceneCountInBuildSettings)
-        {
-            nextSceneIndex = 0;
-        }
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        int nextSceneIndex = currentSceneIndex + 1;
 
         FindObjectOfType<ScenePersist>().ResetScenePersist();
+       
         // Load next level
         SceneManager.LoadScene(nextSceneIndex);
+        
+        // Completed game after exiting last level
+        if (nextSceneIndex ==  SceneManager.sceneCountInBuildSettings - 1)
+        {
+            gameSession.hasCompleted = true;
+        }
     }
 }

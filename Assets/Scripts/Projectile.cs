@@ -17,7 +17,15 @@ public class Projectile : MonoBehaviour
     {
         projRigidBody = GetComponent<Rigidbody2D>();
         player = GameObject.FindWithTag("Player");
-        xSpeed = player.transform.localScale.x * projectileSpeed;
+
+        if(player.GetComponent<SpriteRenderer>().flipX)
+        {
+            xSpeed = -projectileSpeed;
+        }
+        else 
+        {
+            xSpeed = projectileSpeed;
+        }
     }
 
     // Update is called once per frame
@@ -26,7 +34,7 @@ public class Projectile : MonoBehaviour
         projRigidBody.velocity = new Vector2(xSpeed, 0f);
     }
 
-    private void OnTriggerEnter2D(Collider2D other) 
+    void OnTriggerEnter2D(Collider2D other) 
     {
         if (other.tag == "Enemy" && !hasHit)
         {   
@@ -34,7 +42,7 @@ public class Projectile : MonoBehaviour
             
             // Update player score with enemy value
             int enemyValue = other.GetComponent<EnemyMovement>().GetEnemyValue();
-            FindObjectOfType<GameSession>().IncrementScore(enemyValue);
+            FindObjectOfType<ScoreKeeper>().ModifyScore(enemyValue);
             
             Destroy(other.gameObject);
         }
@@ -42,7 +50,8 @@ public class Projectile : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnCollisionEnter2D(Collision2D other) {
+    void OnCollisionEnter2D(Collision2D other)
+    {
         Destroy(gameObject);
     }
 }
