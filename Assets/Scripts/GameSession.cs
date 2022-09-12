@@ -7,7 +7,7 @@ using TMPro;
 public class GameSession : MonoBehaviour
 {
     [SerializeField] float restartDelay = 2f;
-    [SerializeField] Health playerHealth;
+    Health playerHealth;
     ScoreKeeper scoreKeeper;
     public bool hasCompleted;
 
@@ -28,19 +28,27 @@ public class GameSession : MonoBehaviour
         }
 
         scoreKeeper = FindObjectOfType<ScoreKeeper>();
+        playerHealth = FindObjectOfType<Health>();
+    }
+
+    void Start()
+    {
+        // Set player score at 0
+        scoreKeeper.ResetScore();
+
+        // Set player health at initial health
+        playerHealth.ResetHealth();
     }
 
     public void ProcessPlayerDeath() 
     {
         if(playerHealth.GetHealth() > 1) 
-        {      
+        {   
             StartCoroutine(RestartCurrentLevel());
-            Debug.Log("Player health =" + playerHealth.GetHealth());
         }
         else 
         {
             LoadEndGame();
-            Debug.Log("Player died =" + playerHealth.GetHealth());
         }
     }
 
@@ -53,6 +61,7 @@ public class GameSession : MonoBehaviour
     {   
         yield return new WaitForSecondsRealtime(restartDelay);
 
+        playerHealth.ModifyHealth(-1);
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
     }

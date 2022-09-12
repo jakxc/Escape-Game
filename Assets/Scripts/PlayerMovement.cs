@@ -12,18 +12,17 @@ public class PlayerMovement : MonoBehaviour
     CapsuleCollider2D playerCollider;
     BoxCollider2D feetCollider;
 
-    Health playerHealth;
-    bool enableInput;
+    bool isAlive = true;
     float initialGravityScale;
 
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] float jumpSpeed = 10f;
     [SerializeField] float climbSpeed = 5f;
+    float holdBreathTime = 0f;
+    [SerializeField] float maxHoldBreathTime = 5f;
     [SerializeField] GameObject projectile;
     [SerializeField] Transform weapon;
     [SerializeField] AudioClip projectileSFX;
-
-    float holdBreathTime;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +31,6 @@ public class PlayerMovement : MonoBehaviour
         playerSprite = GetComponent<SpriteRenderer>();
         playerAnim = GetComponent<Animator>();
         playerCollider = GetComponent<CapsuleCollider2D>();
-        playerHealth = GetComponent<Health>();
         feetCollider = GetComponent<BoxCollider2D>();
         initialGravityScale = playerBody.gravityScale;
     }
@@ -40,20 +38,19 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        enableInput = playerHealth.isAlive;
-
-        if (!enableInput) {
+        if (!isAlive) {
             return;
         }
 
         Run();
         FlipSprite();
         Climb();
+        ToggleAlive();
     }
 
     void OnMove(InputValue value) 
     {   
-        if (!enableInput) {
+        if (!isAlive) {
             return;
         } 
 
@@ -62,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnJump(InputValue value) 
     {   
-         if (!enableInput) {
+         if (!isAlive) {
             return;
         }
 
@@ -79,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void OnFire() {
-        if (!enableInput) {
+        if (!isAlive) {
             return;
         }
 
@@ -123,4 +120,37 @@ public class PlayerMovement : MonoBehaviour
         bool hasVerticalSpeed = Mathf.Abs(playerBody.velocity.y) > Mathf.Epsilon;
         playerAnim.SetBool("isClimbing", hasVerticalSpeed);
     }
+
+     void ToggleAlive() {
+        // If player touches enemy or hazards, player is not alive
+        if (playerCollider.IsTouchingLayers(LayerMask.GetMask("Enemies", "Hazards"))) 
+        {
+            Die();
+        }
+
+        if (playerCollider.IsTouchingLayers(LayerMask.GetMask("Water")))
+        {
+            holdBreathTime -= Time.deltaTime;
+
+            if (holdBreathTime <= 0) {
+               Die();
+            }
+        }
+        else 
+        {   
+            if (holdBreathTime < maxHoldBreathTime) 
+            {
+                holdBreathTime += Time.deltaTime;
+            }
+        }
+    }
+
+    void Die()
+    {
+        isAlive = false;
+        playerAnim.SetTrigger("isDead");
+
+        FindObjectOfType<GameSession>().ProcessPlayerDeath();
+    }
+
 }

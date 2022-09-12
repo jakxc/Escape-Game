@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthText: {fileID: 41726888}
-  playerHealth: {fileID: 5332561769503257306, guid: 08bb17ac783f8094b82f09015fbf2992, type: 3}
+  playerHealth: {fileID: 4047896942377722482}
   scoreText: {fileID: 1806082791}
 --- !u!1 &1806082789
 GameObject:
@@ -398,6 +398,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2726488605380475355}
   - component: {fileID: 7639330161770370542}
+  - component: {fileID: 4047896942377722482}
   m_Layer: 0
   m_Name: Game Session
   m_TagString: Untagged
@@ -434,6 +435,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   restartDelay: 2
-  playerHealth: {fileID: 5332561769503257306, guid: 08bb17ac783f8094b82f09015fbf2992, type: 3}
-  scoreKeeper: {fileID: 2268514319643375636, guid: f4f10d333c16adf418697c2934f13437, type: 3}
   hasCompleted: 0
+--- !u!114 &4047896942377722482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3618638463581915834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ba0322276823d64f9318aa09f86011b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 3
