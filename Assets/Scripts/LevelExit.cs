@@ -5,38 +5,30 @@ using UnityEngine.SceneManagement;
 
 public class LevelExit : MonoBehaviour
 {   
-    [SerializeField] float loadDelay = 2f;
-    
+    LevelManager levelManager;
     GameSession gameSession;
 
-    void Awake() {
-        gameSession = FindObjectOfType<GameSession>();    
+    void Awake()
+    {
+        gameSession = FindObjectOfType<GameSession>();
+        levelManager = FindObjectOfType<LevelManager>();    
     }
     
     void OnTriggerEnter2D(Collider2D other) 
     {   
+        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+
         if (other.tag == "Player") 
         {
-            StartCoroutine(LoadNextLevel());   
+            if (nextSceneIndex == SceneManager.sceneCountInBuildSettings - 1)
+            {
+                levelManager.LoadEndGame();
+                gameSession.hasCompleted = true;
+            } 
+            else
+            {
+                levelManager.LoadNextLevel(); 
+            } 
         }          
-    }
-
-    IEnumerator LoadNextLevel()
-    {
-        yield return new WaitForSecondsRealtime(loadDelay);
-        
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        int nextSceneIndex = currentSceneIndex + 1;
-
-        FindObjectOfType<ScenePersist>().ResetScenePersist();
-       
-        // Load next level
-        SceneManager.LoadScene(nextSceneIndex);
-        
-        // Completed game after exiting last level
-        if (nextSceneIndex ==  SceneManager.sceneCountInBuildSettings - 1)
-        {
-            gameSession.hasCompleted = true;
-        }
     }
 }

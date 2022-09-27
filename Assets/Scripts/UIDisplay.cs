@@ -12,9 +12,11 @@ public class UIDisplay : MonoBehaviour
     [Header("Score")]
     [SerializeField] TextMeshProUGUI scoreText;
     ScoreKeeper scoreKeeper;
+    GameSession gameSession;
 
     void Awake() 
     {
+        gameSession = FindObjectOfType<GameSession>();
         playerHealth = FindObjectOfType<Health>();
         scoreKeeper = FindObjectOfType<ScoreKeeper>();    
     }
@@ -29,7 +31,15 @@ public class UIDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        healthText.text = "Lives: " + playerHealth.GetHealth().ToString();
-        scoreText.text = scoreKeeper.GetScore().ToString();
+        if (gameSession.hasCompleted)
+        {
+            healthText.enabled = false;
+            scoreText.enabled = false;
+        } 
+        else
+        {
+            healthText.text = "Lives: " + playerHealth.GetHealth().ToString();
+            scoreText.text = scoreKeeper.GetScore().ToString();
+        }
     }
 }

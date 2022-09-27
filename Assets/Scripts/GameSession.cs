@@ -6,12 +6,10 @@ using TMPro;
 
 public class GameSession : MonoBehaviour
 {
-    [SerializeField] float restartDelay = 2f;
     Health playerHealth;
     ScoreKeeper scoreKeeper;
+    LevelManager levelManager; 
     public bool hasCompleted;
-
-    string END_GAME = "EndGame";
 
     void Awake() 
     {
@@ -28,6 +26,7 @@ public class GameSession : MonoBehaviour
         }
 
         scoreKeeper = FindObjectOfType<ScoreKeeper>();
+        levelManager = FindObjectOfType<LevelManager>();
         playerHealth = FindObjectOfType<Health>();
     }
 
@@ -44,32 +43,25 @@ public class GameSession : MonoBehaviour
     {
         if(playerHealth.GetHealth() > 1) 
         {   
-            StartCoroutine(RestartCurrentLevel());
+            playerHealth.ModifyHealth(-1);
+            levelManager.RestartCurrentLevel();
         }
         else 
         {
-            LoadEndGame();
+            levelManager.LoadEndGame();
         }
-    }
-
-    void LoadEndGame()
-    {
-        SceneManager.LoadScene(END_GAME);
-    }
-
-     IEnumerator RestartCurrentLevel() 
-    {   
-        yield return new WaitForSecondsRealtime(restartDelay);
-
-        playerHealth.ModifyHealth(-1);
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentSceneIndex);
     }
 
     public void ResetGameSession()
     {   
-        FindObjectOfType<ScenePersist>().ResetScenePersist();
-        FindObjectOfType<ScoreKeeper>().ResetScore();
-        Destroy(gameObject);
+        ScenePersist scenePersist = FindObjectOfType<ScenePersist>();
+
+        if (scenePersist != null)
+        {
+            scenePersist.ResetScenePersist();
+        }
+        
+        scoreKeeper.ResetScore();
+        playerHealth.ResetHealth();
     } 
 }

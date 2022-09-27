@@ -261,6 +261,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 21201490}
   m_CullTransparentMesh: 1
+--- !u!1001 &28783493
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4308411737158331904, guid: abbec72628575c94aa2c46b1ef19ca93, type: 3}
+      propertyPath: m_Name
+      value: SceneManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4308411737158331906, guid: abbec72628575c94aa2c46b1ef19ca93, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4308411737158331906, guid: abbec72628575c94aa2c46b1ef19ca93, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4308411737158331906, guid: abbec72628575c94aa2c46b1ef19ca93, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4308411737158331906, guid: abbec72628575c94aa2c46b1ef19ca93, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4308411737158331906, guid: abbec72628575c94aa2c46b1ef19ca93, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4308411737158331906, guid: abbec72628575c94aa2c46b1ef19ca93, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4308411737158331906, guid: abbec72628575c94aa2c46b1ef19ca93, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4308411737158331906, guid: abbec72628575c94aa2c46b1ef19ca93, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4308411737158331906, guid: abbec72628575c94aa2c46b1ef19ca93, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4308411737158331906, guid: abbec72628575c94aa2c46b1ef19ca93, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4308411737158331906, guid: abbec72628575c94aa2c46b1ef19ca93, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: abbec72628575c94aa2c46b1ef19ca93, type: 3}
+--- !u!114 &28783494 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4308411737158331905, guid: abbec72628575c94aa2c46b1ef19ca93, type: 3}
+  m_PrefabInstance: {fileID: 28783493}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33bb1d4926aa78e4ab8944b9e84e314c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &116686836
 GameObject:
   m_ObjectHideFlags: 0
@@ -1921,9 +1989,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2085976906}
-        m_TargetAssemblyTypeName: MenuInteraction, Assembly-CSharp
-        m_MethodName: ExitGame
+      - m_Target: {fileID: 28783494}
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2764,8 +2832,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2085976906}
-        m_TargetAssemblyTypeName: MenuInteraction, Assembly-CSharp
+      - m_Target: {fileID: 28783494}
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: LoadMainMenu
         m_Mode: 1
         m_Arguments:
@@ -5473,7 +5541,6 @@ GameObject:
   - component: {fileID: 2085976902}
   - component: {fileID: 2085976901}
   - component: {fileID: 2085976905}
-  - component: {fileID: 2085976906}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -5579,15 +5646,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalScoreText: {fileID: 116686838}
   endGameText: {fileID: 21201492}
---- !u!114 &2085976906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2085976900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33bb1d4926aa78e4ab8944b9e84e314c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
