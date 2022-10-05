@@ -5,6 +5,9 @@ using TMPro;
 
 public class UIDisplay : MonoBehaviour
 {
+    public bool hideUI;
+    GameSession gameSession;
+    
     [Header("Lives")]
     [SerializeField] TextMeshProUGUI healthText;
     [SerializeField] Health playerHealth;
@@ -12,7 +15,6 @@ public class UIDisplay : MonoBehaviour
     [Header("Score")]
     [SerializeField] TextMeshProUGUI scoreText;
     ScoreKeeper scoreKeeper;
-    GameSession gameSession;
 
     void Awake() 
     {
@@ -31,15 +33,10 @@ public class UIDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameSession.hasCompleted)
-        {
-            healthText.enabled = false;
-            scoreText.enabled = false;
-        } 
-        else
-        {
-            healthText.text = "Lives: " + playerHealth.GetHealth().ToString();
-            scoreText.text = scoreKeeper.GetScore().ToString();
-        }
+        healthText.enabled = !hideUI;
+        scoreText.enabled = !hideUI;
+   
+        healthText.text = "Lives: " + playerHealth.GetHealth().ToString();
+        scoreText.text = scoreKeeper.GetScore().ToString();
     }
 }

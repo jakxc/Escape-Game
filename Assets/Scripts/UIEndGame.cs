@@ -7,8 +7,8 @@ public class UIEndGame : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI finalScoreText;
     [SerializeField] TextMeshProUGUI endGameText;
-    ScoreKeeper scoreKeeper;
     GameSession gameSession;
+    ScoreKeeper scoreKeeper;
 
     void Awake() 
     {

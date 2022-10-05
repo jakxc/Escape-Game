@@ -8,8 +8,12 @@ public class GameSession : MonoBehaviour
 {
     Health playerHealth;
     ScoreKeeper scoreKeeper;
+    UIDisplay uiDisplay;
     LevelManager levelManager; 
+
     public bool hasCompleted;
+    
+    [SerializeField] int delay;
 
     void Awake() 
     {
@@ -25,22 +29,22 @@ public class GameSession : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
+        uiDisplay = FindObjectOfType<UIDisplay>();
         scoreKeeper = FindObjectOfType<ScoreKeeper>();
         levelManager = FindObjectOfType<LevelManager>();
         playerHealth = FindObjectOfType<Health>();
     }
 
-    void Start()
+    void Start() 
     {
-        // Set player score at 0
-        scoreKeeper.ResetScore();
-
-        // Set player health at initial health
         playerHealth.ResetHealth();
+        scoreKeeper.ResetScore();
     }
 
-    public void ProcessPlayerDeath() 
+    public IEnumerator ProcessPlayerDeath() 
     {
+        yield return new WaitForSeconds(delay);
+
         if(playerHealth.GetHealth() > 1) 
         {   
             playerHealth.ModifyHealth(-1);
@@ -54,14 +58,6 @@ public class GameSession : MonoBehaviour
 
     public void ResetGameSession()
     {   
-        ScenePersist scenePersist = FindObjectOfType<ScenePersist>();
-
-        if (scenePersist != null)
-        {
-            scenePersist.ResetScenePersist();
-        }
-        
-        scoreKeeper.ResetScore();
-        playerHealth.ResetHealth();
+        Destroy(gameObject);
     } 
 }

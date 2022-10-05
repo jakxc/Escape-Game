@@ -7,31 +7,21 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] float sceneLoadDelay = 2f;
     GameSession gameSession;
+    UIDisplay uiDisplay;
     ScoreKeeper scoreKeeper;
 
     void Awake()
     {
         gameSession = FindObjectOfType<GameSession>();
+        uiDisplay = FindObjectOfType<UIDisplay>();
         scoreKeeper = FindObjectOfType<ScoreKeeper>();
-
-        // Singleton pattern
-        int numberOfLevelManagers = FindObjectsOfType<LevelManager>().Length;
-        
-        if(numberOfLevelManagers > 1)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            DontDestroyOnLoad(gameObject);
-        }
     }
 
     public void RestartCurrentLevel() 
     {   
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-        StartCoroutine(WaitAndLoad(currentSceneIndex, sceneLoadDelay));
+        SceneManager.LoadScene(currentSceneIndex);
     }
 
     public void LoadNextLevel()
@@ -46,23 +36,53 @@ public class LevelManager : MonoBehaviour
             scenePersist.ResetScenePersist();
         }
 
+        if (nextSceneIndex > SceneManager.sceneCountInBuildSettings - 1)
+        {
+            uiDisplay.hideUI = true;
+        }
+
         StartCoroutine(WaitAndLoad(nextSceneIndex, sceneLoadDelay));
     }
 
     public void StartGame()
     {
-        gameSession.ResetGameSession();
+        uiDisplay.hideUI = false;
+
+        ScenePersist scenePersist = FindObjectOfType<ScenePersist>();
+
+        if (scenePersist != null)
+        {
+            scenePersist.ResetScenePersist();
+        }
+      
         SceneManager.LoadScene(1);
     }
 
     public void LoadMainMenu()
     {
+        gameSession.ResetGameSession();
+        
+        ScenePersist scenePersist = FindObjectOfType<ScenePersist>();
+
+        if (scenePersist != null)
+        {
+            scenePersist.ResetScenePersist();
+        }
+
         SceneManager.LoadScene(0);
     }
 
     public void LoadEndGame()
     {
         int endGameIndex = SceneManager.sceneCountInBuildSettings - 1; 
+
+        ScenePersist scenePersist = FindObjectOfType<ScenePersist>();
+
+        if (scenePersist != null)
+        {
+            scenePersist.ResetScenePersist();
+        }
+        
         StartCoroutine(WaitAndLoad(endGameIndex, sceneLoadDelay));
     }
 
@@ -74,6 +94,11 @@ public class LevelManager : MonoBehaviour
     IEnumerator WaitAndLoad(int sceneIndex, float delay)
     {
         yield return new WaitForSeconds(delay);
+
+        if (sceneIndex == SceneManager.sceneCountInBuildSettings - 1)
+        {
+            uiDisplay.hideUI = true;
+        }
 
         SceneManager.LoadScene(sceneIndex);
     }

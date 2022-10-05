@@ -150,7 +150,7 @@ public class PlayerMovement : MonoBehaviour
         isAlive = false;
         playerAnim.SetTrigger("isDead");
 
-        FindObjectOfType<GameSession>().ProcessPlayerDeath();
+        StartCoroutine(FindObjectOfType<GameSession>().ProcessPlayerDeath());
     }
 
 }

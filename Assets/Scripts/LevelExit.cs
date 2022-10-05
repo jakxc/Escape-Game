@@ -5,13 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class LevelExit : MonoBehaviour
 {   
-    LevelManager levelManager;
     GameSession gameSession;
+    LevelManager levelManager;
+    UIDisplay uIDisplay;
 
     void Awake()
     {
         gameSession = FindObjectOfType<GameSession>();
-        levelManager = FindObjectOfType<LevelManager>();    
+        levelManager = FindObjectOfType<LevelManager>();
+        uIDisplay = FindObjectOfType<UIDisplay>();   
     }
     
     void OnTriggerEnter2D(Collider2D other) 
@@ -22,13 +24,13 @@ public class LevelExit : MonoBehaviour
         {
             if (nextSceneIndex == SceneManager.sceneCountInBuildSettings - 1)
             {
-                levelManager.LoadEndGame();
                 gameSession.hasCompleted = true;
+                levelManager.LoadEndGame();
             } 
-            else
-            {
+            else 
+            { 
                 levelManager.LoadNextLevel(); 
-            } 
+            }
         }          
     }
 }
