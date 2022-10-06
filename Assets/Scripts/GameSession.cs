@@ -52,7 +52,8 @@ public class GameSession : MonoBehaviour
         }
         else 
         {
-            levelManager.LoadEndGame();
+            uiDisplay.hideUI = true;
+            SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings - 1);
         }
     }
 

@@ -36,11 +36,6 @@ public class LevelManager : MonoBehaviour
             scenePersist.ResetScenePersist();
         }
 
-        if (nextSceneIndex > SceneManager.sceneCountInBuildSettings - 1)
-        {
-            uiDisplay.hideUI = true;
-        }
-
         StartCoroutine(WaitAndLoad(nextSceneIndex, sceneLoadDelay));
     }
 
